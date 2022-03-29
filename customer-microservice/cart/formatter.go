@@ -3,17 +3,17 @@ package cart
 import "customer-microservice/product"
 
 type CartGottenFormatted struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Category string `json:"category"`
-	Price    int    `json:"price"`
-	Quantity int    `json:"quantity"`
+	ProductID string `json:"product_id"`
+	Name      string `json:"name"`
+	Category  string `json:"category"`
+	Price     int    `json:"price"`
+	Quantity  uint   `json:"quantity"`
 }
 
-func FormatProductGotten(product product.Product, quantity int) CartGottenFormatted {
+func FormatProductGotten(product product.Product, quantity uint) CartGottenFormatted {
 	cartGottenFormatted := CartGottenFormatted{}
 
-	cartGottenFormatted.ID = product.ID
+	cartGottenFormatted.ProductID = product.ID
 	cartGottenFormatted.Name = product.Name
 	cartGottenFormatted.Category = product.Category
 	cartGottenFormatted.Price = product.Price

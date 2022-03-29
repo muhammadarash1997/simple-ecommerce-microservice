@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Repository interface {
 	GetAll(id string) ([]Cart, error)
 	Add(cart Cart) (Cart, error)
-	UpdateQuantity(id string, quantity int) (Cart, error)
+	UpdateQuantity(id string, quantity uint) (Cart, error)
 	DeleteByUUID(id string) error
 }
 
@@ -36,6 +36,6 @@ func (this *repository) Add(cart Cart) (Cart, error) {
 	return cart, nil
 }
 
-func (this *repository) UpdateQuantity(id string, quantity int) (Cart, error)
+func (this *repository) UpdateQuantity(id string, quantity uint) (Cart, error)
 
 func (this *repository) DeleteByUUID(id string) error

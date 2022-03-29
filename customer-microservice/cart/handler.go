@@ -98,4 +98,6 @@ func (this *handler) AddItemByProductUUIDHandler(c *gin.Context) {
 
 func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context)
 
-func (this *handler) DeleteCartByUUIDHandler(c *gin.Context)
+func (this *handler) DeleteCartByCartUUIDHandler(c *gin.Context)
+
+func (this *handler) DeleteCartByUserUUIDHandler(c *gin.Context)
