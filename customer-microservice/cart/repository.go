@@ -7,6 +7,7 @@ type Repository interface {
 	Add(cart Cart) (Cart, error)
 	UpdateQuantity(id string, quantity uint) (Cart, error)
 	DeleteByUUID(id string) error
+	DeleteAllByUUID(id string) error
 }
 
 type repository struct {
@@ -38,4 +39,20 @@ func (this *repository) Add(cart Cart) (Cart, error) {
 
 func (this *repository) UpdateQuantity(id string, quantity uint) (Cart, error)
 
-func (this *repository) DeleteByUUID(id string) error
+func (this *repository) DeleteByUUID(id string) error {
+	err := this.db.Delete("WHERE id = ?", id).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (this *repository) DeleteAllByUUID(id string) error {
+	err := this.db.Delete("WHERE user_id = ?", id).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

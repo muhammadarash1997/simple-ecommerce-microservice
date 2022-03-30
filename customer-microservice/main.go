@@ -25,9 +25,9 @@ func main() {
 
 	router.GET("/api/cart/:userUUID", cartHandler.GetCartByUUIDHandler)
 	router.POST("/api/cart", userHandler.AuthenticateHandler, cartHandler.AddItemByProductUUIDHandler)
-	router.POST("/api/cart/:cartUUID", userHandler.AuthenticateHandler, cartHandler.UpdateQuantityByCartUUIDHandler)  // now
-	router.DELETE("/api/cart/:cartUUID", userHandler.AuthenticateHandler, cartHandler.DeleteCartByCartUUIDHandler)
-	router.DELETE("/api/cart/:userUUID", userHandler.AuthenticateHandler, cartHandler.DeleteCartByUserUUIDHandler)
+	router.POST("/api/cart/:cartUUID", userHandler.AuthenticateHandler, cartHandler.UpdateQuantityByCartUUIDHandler)	// yet
+	router.DELETE("/api/cart/item/:cartUUID", userHandler.AuthenticateHandler, cartHandler.DeleteCartByUUIDHandler)
+	router.DELETE("/api/cart/:userUUID", cartHandler.DeleteUserCartByUUIDHandler)
 
 	router.POST("/api/user/register", userHandler.RegisterUserHandler)
 	router.POST("/api/user/login", userHandler.LoginHandler)

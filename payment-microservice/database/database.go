@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"payment-microservice/order"
+	"payment-microservice/payment"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

@@ -9,6 +9,7 @@ type Order struct {
 }
 
 type OrderDetail struct {
+	gorm.Model
 	ID string `gorm:"primaryKey;type:uuid;default:get_random_uuid()" json:"id"`
 	OrderID string `gorm:"type:uuid" json:"order_id"`
 	ProductID string `gorm:"type:uuid" json:"product_id"`

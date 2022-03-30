@@ -1,6 +1,7 @@
 package order
 
 import (
+	"fmt"
 	"net/http"
 	"payment-microservice/helper"
 
@@ -52,5 +53,26 @@ func (this *handler) CreateOrderHandler(c *gin.Context) {
 	}
 
 	// Delete cart
-	http.Delete()
+	client := &http.Client{}
+
+	request, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8080/api/cart/%s", uuid), nil)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+		response := helper.APIResponse("Delete cart failed", http.StatusBadRequest, "error", errorMessage)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	_, err = client.Do(request)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+		response := helper.APIResponse("Delete cart failed", http.StatusBadRequest, "error", errorMessage)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	// Output
+	response := helper.APIResponse("Create order successfully", http.StatusOK, "success", orderDetailsAdded)
+	c.JSON(http.StatusOK, response)
+	return
 }

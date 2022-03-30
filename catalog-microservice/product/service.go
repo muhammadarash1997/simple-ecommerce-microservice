@@ -4,6 +4,7 @@ type Service interface {
 	GetAllProducts() ([]Product, error)
 	GetProductByCategory(category string) ([]Product, error)
 	GetProductByUUID(uuid string) (Product, error)
+	GetTotal(requestObjects []RequestModel) (int, error)
 }
 
 type service struct {
@@ -39,4 +40,33 @@ func (this *service) GetProductByUUID(uuid string) (Product, error) {
 	}
 
 	return product, nil
+}
+
+func (this *service) GetTotal(requestObjects []RequestModel) (int, error) {
+	type total struct {
+		Price int
+		Quantity uint
+	}
+
+	var totalObjects []total
+
+	for _, c := range requestObjects {
+		product, err := this.repository.GetByUUID(c.ProductID)
+		if err != nil {
+			return -1, err
+		}
+
+		totalObject := total{}
+		totalObject.Price = product.Price
+		totalObject.Quantity = c.Quantity
+
+		totalObjects = append(totalObjects, totalObject)
+	}
+
+	var totalPayment int
+	for _, c := range totalObjects {
+		totalPayment += int(c.Quantity) * c.Price
+	}
+
+	return totalPayment, nil
 }

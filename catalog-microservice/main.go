@@ -21,6 +21,7 @@ func main() {
 
 	// For other microservice
 	router.GET("/api/catalog/:productUUID", productHandler.GetProductByUUIDHandler)
+	router.POST("/api/catalog/total", productHandler.GetTotalByUUIDHandler)
 
 	router.Run(":8081")
 }

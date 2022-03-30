@@ -30,8 +30,9 @@ func (this *handler) GetAllProductsHandler(c *gin.Context) {
 
 	// Output
 	allProductsFormatted := FormatProductsGotten(productsGotten)
-	response := helper.APIResponse("Get products successfully", http.StatusOK, "success", allProductsFormatted)
+	response := helper.APIResponse("Get products success", http.StatusOK, "success", allProductsFormatted)
 	c.JSON(http.StatusOK, response)
+	return
 }
 
 func (this *handler) GetProductsByCategoryHandler(c *gin.Context) {
@@ -53,7 +54,7 @@ func (this *handler) GetProductsByCategoryHandler(c *gin.Context) {
 
 	// Output
 	allProductsFormatted := FormatProductsGotten(productsGotten)
-	response := helper.APIResponse("Get products successfully", http.StatusOK, "success", allProductsFormatted)
+	response := helper.APIResponse("Get products success", http.StatusOK, "success", allProductsFormatted)
 	c.JSON(http.StatusOK, response)
 }
 
@@ -69,11 +70,35 @@ func (this *handler) GetProductByUUIDHandler(c *gin.Context) {
 	product, err := this.productService.GetProductByUUID(uuid)
 	if err != nil {
 		errorMessage := gin.H{"message": "Invalid query"}
-		response := helper.APIResponse("Get product failed", http.StatusBadRequest, "error", errorMessage)
-		c.JSON(http.StatusBadRequest, response)
+		c.JSON(http.StatusBadRequest, errorMessage)
 		return
 	}
 
 	// Output
 	c.JSON(http.StatusOK, product)
+	return
+}
+
+func (this *handler) GetTotalByUUIDHandler(c *gin.Context) {
+	// Read payload
+	var requestObjects []RequestModel
+	err := c.ShouldBindJSON(&requestObjects)
+	if err != nil {
+		errorMessage := gin.H{"message": "Invalid query"}
+		response := helper.APIResponse("Get total failed", http.StatusBadRequest, "error", errorMessage)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	// Call process
+	total, err := this.productService.GetTotal(requestObjects)
+	if err != nil {
+		errorMessage := gin.H{"message": "Invalid query"}
+		response := helper.APIResponse("Get total failed", http.StatusBadRequest, "error", errorMessage)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"total": total})
+	return
 }

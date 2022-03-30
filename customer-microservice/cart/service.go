@@ -5,6 +5,7 @@ type Service interface {
 	AddItem(cartInput CartInput) (Cart, error)
 	UpdateQuantityByCartUUID(id string, quantity uint) (Cart, error)
 	DeleteCartByUUID(id string) error
+	DeleteUserCartByUUID(id string) error
 }
 
 type service struct {
@@ -41,4 +42,20 @@ func (this *service) AddItem(cartInput CartInput) (Cart, error) {
 
 func (this *service) UpdateQuantityByCartUUID(id string, quantity uint) (Cart, error)
 
-func (this *service) DeleteCartByUUID(id string) error
+func (this *service) DeleteCartByUUID(id string) error {
+	err := this.cartRepository.DeleteByUUID(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (this *service) DeleteUserCartByUUID(id string) error {
+	err := this.cartRepository.DeleteAllByUUID(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

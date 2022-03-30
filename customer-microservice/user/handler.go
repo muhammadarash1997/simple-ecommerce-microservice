@@ -47,7 +47,7 @@ func (this *handler) RegisterUserHandler(c *gin.Context) {
 
 	userFormatted := FormatUserRegistered(userRegistered)
 
-	response := helper.APIResponse("Account has been registered", http.StatusOK, "success", userFormatted)
+	response := helper.APIResponse("Register account succes", http.StatusOK, "success", userFormatted)
 
 	c.JSON(http.StatusOK, response)
 }
@@ -83,7 +83,7 @@ func (this *handler) LoginHandler(c *gin.Context) {
 
 	userFormatted := FormatUserLogged(userLogged, tokenGenerated)
 
-	response := helper.APIResponse("Login succesfully", http.StatusOK, "success", userFormatted)
+	response := helper.APIResponse("Login success", http.StatusOK, "success", userFormatted)
 
 	c.JSON(http.StatusOK, response)
 }
