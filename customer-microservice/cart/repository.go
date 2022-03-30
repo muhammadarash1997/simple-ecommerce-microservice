@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Repository interface {
 	GetAll(id string) ([]Cart, error)
 	Add(cart Cart) (Cart, error)
-	UpdateQuantity(id string, quantity uint) (Cart, error)
+	UpdateQuantity(id string, quantity uint) error
 	DeleteByUUID(id string) error
 	DeleteAllByUUID(id string) error
 }
@@ -37,7 +37,14 @@ func (this *repository) Add(cart Cart) (Cart, error) {
 	return cart, nil
 }
 
-func (this *repository) UpdateQuantity(id string, quantity uint) (Cart, error)
+func (this *repository) UpdateQuantity(id string, quantity uint) error {
+	err := this.db.Model(&Cart{}).Where("id = ?", id).Update("quantity", quantity).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func (this *repository) DeleteByUUID(id string) error {
 	err := this.db.Delete("WHERE id = ?", id).Error

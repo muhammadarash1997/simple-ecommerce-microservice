@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -105,7 +106,31 @@ func (this *handler) AddItemByProductUUIDHandler(c *gin.Context) {
 	return
 }
 
-func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context)
+func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context) {
+	// Read param
+	uuid := c.Params.ByName("cartUUID")
+	quantity, err := strconv.Atoi(c.Query("quantity"))
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+		response := helper.APIResponse("Add cart failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	// Call process
+	err = this.cartService.UpdateQuantityByCartUUID(uuid, uint(quantity))
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+		response := helper.APIResponse("Update quantity failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	// Output
+	response := helper.APIResponse("Update quantity success", http.StatusOK, "success", nil)
+	c.JSON(http.StatusOK, response)
+	return
+}
 
 func (this *handler) DeleteCartByUUIDHandler(c *gin.Context) {
 	// Read param

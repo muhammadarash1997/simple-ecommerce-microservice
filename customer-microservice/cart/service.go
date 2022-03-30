@@ -3,7 +3,7 @@ package cart
 type Service interface {
 	GetCartByUUID(id string) ([]Cart, error)
 	AddItem(cartInput CartInput) (Cart, error)
-	UpdateQuantityByCartUUID(id string, quantity uint) (Cart, error)
+	UpdateQuantityByCartUUID(id string, quantity uint) error
 	DeleteCartByUUID(id string) error
 	DeleteUserCartByUUID(id string) error
 }
@@ -40,7 +40,14 @@ func (this *service) AddItem(cartInput CartInput) (Cart, error) {
 	return cartAdded, nil
 }
 
-func (this *service) UpdateQuantityByCartUUID(id string, quantity uint) (Cart, error)
+func (this *service) UpdateQuantityByCartUUID(id string, quantity uint) error {
+	err := this.cartRepository.UpdateQuantity(id, quantity)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func (this *service) DeleteCartByUUID(id string) error {
 	err := this.cartRepository.DeleteByUUID(id)

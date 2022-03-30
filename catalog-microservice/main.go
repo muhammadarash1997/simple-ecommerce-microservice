@@ -16,12 +16,11 @@ func main() {
 	productService := product.NewService(productRepository)
 	productHandler := product.NewHandler(productService)
 
-	router.GET("/api/catalog", productHandler.GetAllProductsHandler)
-	router.GET("/api/catalog/:category", productHandler.GetProductsByCategoryHandler)
+	router.GET("/api/catalog", productHandler.GetAllProductsHandler)                  // Get all products and done by logged in or not logged in customer
+	router.GET("/api/catalog/:category", productHandler.GetProductsByCategoryHandler) // Get products by cateogry and done by logged in or not logged in customer
 
-	// For other microservice
-	router.GET("/api/catalog/:productUUID", productHandler.GetProductByUUIDHandler)
-	router.POST("/api/catalog/total", productHandler.GetTotalByUUIDHandler)
+	router.GET("/api/catalog/:productUUID", productHandler.GetProductByUUIDHandler) // Get product and done by microservice
+	router.POST("/api/catalog/total", productHandler.GetTotalByUUIDHandler)         // Get total of certain products and done by microservice
 
 	router.Run(":8081")
 }

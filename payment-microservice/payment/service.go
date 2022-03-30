@@ -67,15 +67,15 @@ func (this *service) AddPayment(orderInput OrderInput) (Payment, error) {
 	}
 	defer response.Body.Close()
 
-	var data = struct {
-		total int `json:"total"`
+	var Data = struct {
+		Total int `json:"total"`
 	}{}
-	err = json.NewDecoder(response.Body).Decode(&data)
+	err = json.NewDecoder(response.Body).Decode(&Data)
 	if err != nil {
 		return payment, err
 	}
 
-	payment.Total = data.total
+	payment.Total = Data.Total
 
 	paymentAdded, err := this.paymentRepository.Add(payment)
 	if err != nil {
