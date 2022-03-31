@@ -28,6 +28,7 @@ func (this *service) AddOrderByUUID(id string) (Order, error) {
 func (this *service) AddOrderDetailsByOrderUUID(cartInput []CartInput, id string) ([]OrderDetail, error) {
 	orderDetails := []OrderDetail{}
 
+	// Map cartInput to orderDetail
 	for _, c := range cartInput {
 		orderDetail := OrderDetail{}
 

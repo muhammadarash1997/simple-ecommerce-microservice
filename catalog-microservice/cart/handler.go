@@ -1,12 +1,11 @@
 package cart
 
 import (
-	"customer-microservice/helper"
-	"customer-microservice/product"
+	"catalog-microservice/helper"
+	"catalog-microservice/product"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -68,8 +67,11 @@ func (this *handler) GetCartByUUIDHandler(c *gin.Context) {
 	}
 
 	// Output
-	response := helper.APIResponse("Get cart success", http.StatusOK, "success", cartResponse)
-	c.JSON(http.StatusOK, response)
+
+	// response := helper.APIResponse("Get cart success", http.StatusOK, "success", cartResponse)
+	// c.JSON(http.StatusOK, response)
+
+	c.JSON(http.StatusOK, cartResponse)
 	return
 }
 
@@ -101,15 +103,19 @@ func (this *handler) AddItemByProductUUIDHandler(c *gin.Context) {
 	}
 
 	// Output
-	response := helper.APIResponse("Add cart success", http.StatusOK, "success", cartAdded)
-	c.JSON(http.StatusOK, response)
+
+	// response := helper.APIResponse("Add cart success", http.StatusOK, "success", cartAdded)
+	// c.JSON(http.StatusOK, response)
+
+	c.JSON(http.StatusOK, cartAdded)
 	return
 }
 
 func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context) {
 	// Read param
-	uuid := c.Params.ByName("cartUUID")
-	quantity, err := strconv.Atoi(c.Query("quantity"))
+	var updateQuantityInput UpdateQuantityInput
+
+	err := c.ShouldBindJSON(&updateQuantityInput)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Add cart failed", http.StatusUnprocessableEntity, "error", errorMessage)
@@ -117,8 +123,11 @@ func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context) {
 		return
 	}
 
+	uuid := updateQuantityInput.CartID
+	quantity := updateQuantityInput.Quantity
+
 	// Call process
-	err = this.cartService.UpdateQuantityByCartUUID(uuid, uint(quantity))
+	err = this.cartService.UpdateQuantityByCartUUID(uuid, quantity)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Update quantity failed", http.StatusUnprocessableEntity, "error", errorMessage)
@@ -127,8 +136,11 @@ func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context) {
 	}
 
 	// Output
-	response := helper.APIResponse("Update quantity success", http.StatusOK, "success", nil)
-	c.JSON(http.StatusOK, response)
+
+	// response := helper.APIResponse("Update quantity success", http.StatusOK, "success", nil)
+	// c.JSON(http.StatusOK, response)
+
+	c.JSON(http.StatusOK, nil)
 	return
 }
 
@@ -146,8 +158,10 @@ func (this *handler) DeleteCartByUUIDHandler(c *gin.Context) {
 	}
 
 	// Output
-	response := helper.APIResponse("Delete cart success", http.StatusOK, "success", nil)
-	c.JSON(http.StatusOK, response)
+	// response := helper.APIResponse("Delete cart success", http.StatusOK, "success", nil)
+	// c.JSON(http.StatusOK, response)
+	
+	c.JSON(http.StatusOK, nil)
 	return
 }
 

@@ -1,6 +1,6 @@
 package cart
 
-import "customer-microservice/product"
+import "catalog-microservice/product"
 
 type CartGottenFormatted struct {
 	Product product.Product `json:"product"`

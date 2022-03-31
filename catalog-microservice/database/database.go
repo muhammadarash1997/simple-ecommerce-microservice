@@ -1,10 +1,11 @@
 package database
 
 import (
+	"catalog-microservice/cart"
+	"catalog-microservice/product"
 	"fmt"
 	"log"
 	"os"
-	"catalog-microservice/product"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -28,6 +29,7 @@ func StartConnection() *gorm.DB {
 	}
 	fmt.Println("Succes to connect to product database")
 
+	db.AutoMigrate(&cart.Cart{})
 	db.AutoMigrate(&product.Product{})
 
 	return db

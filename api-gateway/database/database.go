@@ -1,8 +1,7 @@
 package database
 
 import (
-	"customer-microservice/cart"
-	"customer-microservice/user"
+	"api-gateway/user"
 	"fmt"
 	"log"
 	"os"
@@ -28,7 +27,6 @@ func StartConnection() *gorm.DB {
 	fmt.Println("Succes to connect to customer database")
 
 	db.AutoMigrate(&user.User{})
-	db.AutoMigrate(&cart.Cart{})
 
 	return db
 }

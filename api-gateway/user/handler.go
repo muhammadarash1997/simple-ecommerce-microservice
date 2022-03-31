@@ -1,8 +1,8 @@
 package user
 
 import (
-	"customer-microservice/auth"
-	"customer-microservice/helper"
+	"api-gateway/auth"
+	"api-gateway/helper"
 	"net/http"
 	"strings"
 
