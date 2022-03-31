@@ -20,8 +20,6 @@ func main() {
 
 	customerDb := database.StartConnection()
 
-	router.GET("/api/test", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "api gateway ok"}) }) // Test and be done by api gateway
-
 	// USER
 	var (
 		userRepository = user.NewRepository(customerDb)
@@ -59,6 +57,15 @@ func main() {
 		paymentHandler = payment.NewHandler()
 	)
 	router.POST("/api/order/pay", userHandler.AuthenticateHandler, paymentHandler.CreatePaymentHandler) // Pay order and be done by logged in customer
+
+	// TEST API GATEWAY
+	router.GET("/api/test", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "api gateway ok"}) }) // Test and be done by user
+	// TEST CART MICROSERVICE
+	router.GET("/api/cart/test", cartHandler.Test) // Test and be done by user
+	// TEST PRODUCT MICROSERVICE
+	router.GET("/api/product/test", productHandler.Test) // Test and be done by user
+	// TEST PAYMENT MICROSERVICE
+	router.GET("/api/product/test", paymentHandler.Test) // Test and be done by user
 
 	router.Run(":8080")
 }

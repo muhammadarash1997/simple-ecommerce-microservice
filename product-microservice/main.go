@@ -14,7 +14,20 @@ func main() {
 	router.Use(cors.Default())
 
 	// TEST
-	router.GET("/api/test", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "product microservice ok"}) }) // Test and be done by api gateway
+	router.POST("/api/product/test", func(c *gin.Context) {
+		var testInput = struct {
+			Message string `json:"message"`
+		}{}
+
+		err := c.ShouldBindJSON(testInput)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+			return
+		}
+
+		c.JSON(http.StatusOK, testInput)
+		return
+	}) // Test and be done by api gateway
 
 	db := database.StartConnection()
 

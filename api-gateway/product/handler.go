@@ -2,6 +2,7 @@ package product
 
 import (
 	"api-gateway/helper"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -14,6 +15,45 @@ type handler struct {
 
 func NewHandler() *handler {
 	return &handler{}
+}
+
+func (h *handler) Test(c *gin.Context) {
+	client := &http.Client{}
+
+	var testInput = struct {
+		Message string `json:"message"`
+	}{
+		Message: "product microservice ok",
+	}
+
+	requestBody, err := json.Marshal(testInput)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		return
+	}
+
+	httpRequest, err := http.NewRequest("POST", "http://localhost:8081/api/product/test", bytes.NewBuffer(requestBody))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		return
+	}
+	httpRequest.Header.Set("Content-Type", "application/json")
+
+	httpResponse, err := client.Do(httpRequest)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		return
+	}
+
+	var testOutput = struct {
+		Message string `json:"message"`
+	}{}
+
+	json.NewDecoder(httpResponse.Body).Decode(&testOutput)
+	c.JSON(http.StatusOK, testOutput)
+
+	httpResponse.Body.Close()
+	return
 }
 
 func (this *handler) GetAllProductsHandler(c *gin.Context) {

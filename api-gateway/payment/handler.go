@@ -16,6 +16,45 @@ func NewHandler() *handler {
 	return &handler{}
 }
 
+func (h *handler) Test(c *gin.Context) {
+	client := &http.Client{}
+
+	var testInput = struct {
+		Message string `json:"message"`
+	}{
+		Message: "payment microservice ok",
+	}
+
+	requestBody, err := json.Marshal(testInput)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		return
+	}
+
+	httpRequest, err := http.NewRequest("POST", "http://localhost:8082/api/payment/test", bytes.NewBuffer(requestBody))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		return
+	}
+	httpRequest.Header.Set("Content-Type", "application/json")
+
+	httpResponse, err := client.Do(httpRequest)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		return
+	}
+
+	var testOutput = struct {
+		Message string `json:"message"`
+	}{}
+
+	json.NewDecoder(httpResponse.Body).Decode(&testOutput)
+	c.JSON(http.StatusOK, testOutput)
+
+	httpResponse.Body.Close()
+	return
+}
+
 func (this *handler) CreatePaymentHandler(c *gin.Context) {
 	var orderInput OrderInput
 	err := c.ShouldBindJSON(&orderInput)
