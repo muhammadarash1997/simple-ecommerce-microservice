@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,22 +27,22 @@ func (h *handler) Test(c *gin.Context) {
 		Message: "product microservice ok",
 	}
 
-	requestBody, err := json.Marshal(testInput)
+	request, err := json.Marshal(testInput)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad 1"})
 		return
 	}
 
-	httpRequest, err := http.NewRequest("POST", "http://localhost:8081/api/product/test", bytes.NewBuffer(requestBody))
+	httpRequest, err := http.NewRequest("POST", fmt.Sprintf("%s/api/product/test", os.Getenv("TEST_PRODUCT_URL")), bytes.NewBuffer(request))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad 2"})
 		return
 	}
 	httpRequest.Header.Set("Content-Type", "application/json")
 
 	httpResponse, err := client.Do(httpRequest)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
@@ -59,7 +60,7 @@ func (h *handler) Test(c *gin.Context) {
 func (this *handler) GetAllProductsHandler(c *gin.Context) {
 	client := &http.Client{}
 
-	httpRequest, err := http.NewRequest("GET", "http://localhost:8081/api/catalog", nil)
+	httpRequest, err := http.NewRequest("GET", "http://localhost:8081/api/product", nil)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Get products failed", http.StatusBadRequest, "error", errorMessage)
@@ -91,7 +92,7 @@ func (this *handler) GetProductsByCategoryHandler(c *gin.Context) {
 
 	client := &http.Client{}
 
-	httpRequest, err := http.NewRequest("GET", fmt.Sprintf("http://localhost:8081/api/cart/%s", categoryRequest), nil)
+	httpRequest, err := http.NewRequest("GET", fmt.Sprintf("http://localhost:8081/api/product/category/%s", categoryRequest), nil)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Get products by category failed", http.StatusBadRequest, "error", errorMessage)

@@ -26,3 +26,28 @@ services:
       TEST_PRODUCT_URL: ${TEST_PRODUCT_URL}
     depends_on:
       - apigateway-postgres
+      
+  product-postgres:
+    image: postgres
+    ports:
+      - 5433:5432
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+  product-backend:
+    build: ./product-microservice
+    ports:
+      - 8081:8080
+    env_file: .env
+    environment:
+      TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}
+      SECRET_KEY: ${SECRET_KEY}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+    depends_on:
+      - product-postgres

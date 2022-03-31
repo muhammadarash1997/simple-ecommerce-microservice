@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN go build -o binary-apigateway-microservice
+RUN go build -o binary-apigateway
 
 EXPOSE 8080
 
-CMD ./binary-apigateway-microservice
+CMD ./binary-apigateway

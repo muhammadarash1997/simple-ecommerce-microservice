@@ -19,7 +19,7 @@ func main() {
 			Message string `json:"message"`
 		}{}
 
-		err := c.ShouldBindJSON(testInput)
+		err := c.ShouldBindJSON(&testInput)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
 			return

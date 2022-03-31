@@ -43,8 +43,8 @@ func main() {
 	var (
 		productHandler = product.NewHandler()
 	)
-	router.GET("/api/catalog", productHandler.GetAllProductsHandler)                  // Get all products and done by logged in or not logged in customer
-	router.GET("/api/catalog/:category", productHandler.GetProductsByCategoryHandler) // Get products by cateogry and done by logged in or not logged in customer
+	router.GET("/api/product", productHandler.GetAllProductsHandler)                           // Get all products and done by logged in or not logged in customer
+	router.GET("/api/product/category/:category", productHandler.GetProductsByCategoryHandler) // Get products by cateogry and done by logged in or not logged in customer
 
 	// ORDER
 	var (
@@ -65,7 +65,7 @@ func main() {
 	// TEST PRODUCT MICROSERVICE
 	router.GET("/api/product/test", productHandler.Test) // Test and be done by user
 	// TEST PAYMENT MICROSERVICE
-	router.GET("/api/product/test", paymentHandler.Test) // Test and be done by user
+	router.GET("/api/payment/test", paymentHandler.Test) // Test and be done by user
 
 	router.Run(":8080")
 }
