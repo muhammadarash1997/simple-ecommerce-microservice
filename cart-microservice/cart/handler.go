@@ -1,8 +1,8 @@
 package cart
 
 import (
-	"catalog-microservice/helper"
-	"catalog-microservice/product"
+	"cart-microservice/helper"
+	"cart-microservice/product"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -42,15 +42,16 @@ func (this *handler) GetCartByUUIDHandler(c *gin.Context) {
 	for _, content := range cartGotten {
 		client := &http.Client{}
 
-		request, err := http.NewRequest("GET", fmt.Sprintf("http://localhost:8081/api/catalog/%s", content.ProductID), nil)
+		httpRequest, err := http.NewRequest("GET", fmt.Sprintf("http://localhost:8081/api/product/%s", content.ProductID), nil)
 		if err != nil {
 			errorMessage := gin.H{"errors": err.Error()}
 			response := helper.APIResponse("Get cart failed", http.StatusBadRequest, "error", errorMessage)
 			c.JSON(http.StatusBadRequest, response)
 			return
 		}
+		httpRequest.Header.Set("Content-Type", "application/json")
 
-		response, err := client.Do(request)
+		response, err := client.Do(httpRequest)
 		if err != nil {
 			errorMessage := gin.H{"errors": err.Error()}
 			response := helper.APIResponse("Get cart failed", http.StatusBadRequest, "error", errorMessage)
@@ -67,10 +68,6 @@ func (this *handler) GetCartByUUIDHandler(c *gin.Context) {
 	}
 
 	// Output
-
-	// response := helper.APIResponse("Get cart success", http.StatusOK, "success", cartResponse)
-	// c.JSON(http.StatusOK, response)
-
 	c.JSON(http.StatusOK, cartResponse)
 	return
 }
@@ -103,10 +100,6 @@ func (this *handler) AddItemByProductUUIDHandler(c *gin.Context) {
 	}
 
 	// Output
-
-	// response := helper.APIResponse("Add cart success", http.StatusOK, "success", cartAdded)
-	// c.JSON(http.StatusOK, response)
-
 	c.JSON(http.StatusOK, cartAdded)
 	return
 }
@@ -136,10 +129,6 @@ func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context) {
 	}
 
 	// Output
-
-	// response := helper.APIResponse("Update quantity success", http.StatusOK, "success", nil)
-	// c.JSON(http.StatusOK, response)
-
 	c.JSON(http.StatusOK, nil)
 	return
 }
@@ -158,9 +147,6 @@ func (this *handler) DeleteCartByUUIDHandler(c *gin.Context) {
 	}
 
 	// Output
-	// response := helper.APIResponse("Delete cart success", http.StatusOK, "success", nil)
-	// c.JSON(http.StatusOK, response)
-	
 	c.JSON(http.StatusOK, nil)
 	return
 }

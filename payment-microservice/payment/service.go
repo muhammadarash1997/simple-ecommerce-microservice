@@ -55,13 +55,13 @@ func (this *service) AddPayment(orderInput OrderInput) (Payment, error) {
 		return payment, err
 	}
 
-	request, err := http.NewRequest("POST", "http://localhost:8081/api/catalog/total", bytes.NewBuffer(requestBody))
+	httpRequest, err := http.NewRequest("POST", "http://localhost:8081/api/product/total", bytes.NewBuffer(requestBody))
 	if err != nil {
 		return payment, err
 	}
-	request.Header.Set("Content-Type", "application/json")
+	httpRequest.Header.Set("Content-Type", "application/json")
 
-	response, err := client.Do(request)
+	response, err := client.Do(httpRequest)
 	if err != nil {
 		return payment, err
 	}

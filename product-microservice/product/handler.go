@@ -1,7 +1,7 @@
 package product
 
 import (
-	"catalog-microservice/helper"
+	"product-microservice/helper"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,9 +16,6 @@ func NewHandler(productService Service) *handler {
 }
 
 func (this *handler) GetAllProductsHandler(c *gin.Context) {
-	// Call process
-	// Output
-
 	// Call Process
 	productsGotten, err := this.productService.GetAllProducts()
 	if err != nil {
@@ -30,16 +27,11 @@ func (this *handler) GetAllProductsHandler(c *gin.Context) {
 
 	// Output
 	allProductsFormatted := FormatProductsGotten(productsGotten)
-	response := helper.APIResponse("Get products success", http.StatusOK, "success", allProductsFormatted)
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusOK, allProductsFormatted)
 	return
 }
 
 func (this *handler) GetProductsByCategoryHandler(c *gin.Context) {
-	// Get path params
-	// Call process
-	// Output
-
 	// Get path params
 	categoryRequest := c.Params.ByName("category")
 
@@ -54,15 +46,10 @@ func (this *handler) GetProductsByCategoryHandler(c *gin.Context) {
 
 	// Output
 	allProductsFormatted := FormatProductsGotten(productsGotten)
-	response := helper.APIResponse("Get products success", http.StatusOK, "success", allProductsFormatted)
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusOK, allProductsFormatted)
 }
 
 func (this *handler) GetProductByUUIDHandler(c *gin.Context) {
-	// Get path params
-	// Call process
-	// Output
-
 	// Get path params
 	uuid := c.Params.ByName("productUUID")
 
@@ -99,6 +86,7 @@ func (this *handler) GetTotalByUUIDHandler(c *gin.Context) {
 		return
 	}
 
+	// Output
 	c.JSON(http.StatusOK, gin.H{"total": total})
 	return
 }

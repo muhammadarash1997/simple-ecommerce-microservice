@@ -29,5 +29,16 @@ func (this *handler) CreatePaymentHandler(c *gin.Context) {
 	}
 
 	// Call process
-	this.paymentService.AddPayment(orderInput)
+	paymentAdded, err := this.paymentService.AddPayment(orderInput)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+
+		response := helper.APIResponse("Create payment failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	// Output
+	c.JSON(http.StatusOK, paymentAdded)
+	return
 }

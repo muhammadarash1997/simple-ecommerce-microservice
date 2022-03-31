@@ -44,7 +44,7 @@ func (this *service) GetProductByUUID(uuid string) (Product, error) {
 
 func (this *service) GetTotal(requestObjects []RequestModel) (int, error) {
 	type total struct {
-		Price int
+		Price    int
 		Quantity uint
 	}
 

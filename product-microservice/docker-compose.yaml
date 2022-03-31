@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+  product-postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+  product-backend:
+    # image: backend-product-microservice:v1
+    build: .
+    ports:
+      - 8081:8081
+    env_file: .env
+    environment:
+      TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}
+      SECRET_KEY: ${SECRET_KEY}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+    depends_on:
+      - product-postgres

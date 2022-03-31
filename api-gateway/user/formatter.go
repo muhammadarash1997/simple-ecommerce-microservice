@@ -1,25 +1,25 @@
 package user
 
 type UserRegisteredFormatter struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Address  string `json:"address"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Address string `json:"address"`
 }
 
 type UserLoggedFormatter struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Address  string `json:"address"`
-	Token string `json:"token"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Address string `json:"address"`
+	Token   string `json:"token"`
 }
 
 func FormatUserRegistered(user User) UserRegisteredFormatter {
 	userFormatted := UserRegisteredFormatter{
-		ID: user.ID,
-		Name: user.Name,
-		Email: user.Email,
+		ID:      user.ID,
+		Name:    user.Name,
+		Email:   user.Email,
 		Address: user.Address,
 	}
 
@@ -28,11 +28,11 @@ func FormatUserRegistered(user User) UserRegisteredFormatter {
 
 func FormatUserLogged(user User, tokenGenerated string) UserLoggedFormatter {
 	userFormatted := UserLoggedFormatter{
-		ID: user.ID,
-		Name: user.Name,
-		Email: user.Email,
+		ID:      user.ID,
+		Name:    user.Name,
+		Email:   user.Email,
 		Address: user.Address,
-		Token: tokenGenerated,
+		Token:   tokenGenerated,
 	}
 
 	return userFormatted

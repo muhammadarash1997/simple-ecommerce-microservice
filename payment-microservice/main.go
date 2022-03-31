@@ -11,23 +11,29 @@ import (
 )
 
 func main() {
-	db := database.StartConnection()
-
-	orderRepository := order.NewRepository(db)
-	orderService := order.NewService(orderRepository)
-	orderHandler := order.NewHandler(orderService)
-
-	paymentRepository := payment.NewRepository(db)
-	paymentService := payment.NewService(paymentRepository, orderRepository)
-	paymentHandler := payment.NewHandler(paymentService)
-
 	router := gin.Default()
 	router.Use(cors.Default())
 
-	router.GET("/api/test", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "ok"}) }) // Test
+	// TEST
+	router.GET("/api/test", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "payment microservice ok"}) }) // Test and be done by api gateway
 
-	router.POST("/api/order/cart/:userUUID", orderHandler.CreateOrderHandler) // Order
-	router.POST("/api/order/pay/", paymentHandler.CreatePaymentHandler)       // Pay
+	db := database.StartConnection()
+
+	// ORDER
+	var (
+		orderRepository = order.NewRepository(db)
+		orderService    = order.NewService(orderRepository)
+		orderHandler    = order.NewHandler(orderService)
+	)
+	router.POST("/api/order/cart/:userUUID", orderHandler.CreateOrderHandler) // Order cart and be done by logged in customer
+
+	// PAYMENT
+	var (
+		paymentRepository = payment.NewRepository(db)
+		paymentService    = payment.NewService(paymentRepository, orderRepository)
+		paymentHandler    = payment.NewHandler(paymentService)
+	)
+	router.POST("/api/order/pay", paymentHandler.CreatePaymentHandler) // Pay order and be done by logged in customer
 
 	router.Run(":8082")
 }

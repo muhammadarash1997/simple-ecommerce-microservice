@@ -8,8 +8,8 @@ type Cart struct {
 }
 
 type CartGottenFormatted struct {
-	Product Product `json:"product"`
-	Quantity uint `json:"quantity"`
+	Product  Product `json:"product"`
+	Quantity uint    `json:"quantity"`
 }
 
 type Product struct {
@@ -20,6 +20,6 @@ type Product struct {
 }
 
 type UpdateQuantityInput struct {
-	CartID string `json:"cart_id"`
+	CartID   string `json:"cart_id"`
 	Quantity uint   `json:"quantity"`
 }

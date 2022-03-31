@@ -1,18 +1,18 @@
 package product
 
-type ProductGottenFormatter struct {
+type ProductGottenFormatted struct {
 	ID       string `json:"id"`
 	Name     string `json:"name"`
 	Category string `json:"category"`
 	Price    int    `json:"price"`
 }
 
-func FormatProductsGotten(allProductsGotten []Product) []ProductGottenFormatter {
-	allProductsFormatted := []ProductGottenFormatter{}
+func FormatProductsGotten(allProductsGotten []Product) []ProductGottenFormatted {
+	allProductsFormatted := []ProductGottenFormatted{}
 
 	for _, productGotten := range allProductsGotten {
 		// Create productFormatted
-		productFormatted := ProductGottenFormatter{}
+		productFormatted := ProductGottenFormatted{}
 
 		productFormatted.ID = productGotten.ID
 		productFormatted.Name = productGotten.Name

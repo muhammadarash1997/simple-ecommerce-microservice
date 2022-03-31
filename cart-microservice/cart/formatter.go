@@ -1,10 +1,10 @@
 package cart
 
-import "catalog-microservice/product"
+import "cart-microservice/product"
 
 type CartGottenFormatted struct {
-	Product product.Product `json:"product"`
-	Quantity uint `json:"quantity"`
+	Product  product.Product `json:"product"`
+	Quantity uint            `json:"quantity"`
 }
 
 func FormatProductGotten(product product.Product, quantity uint) CartGottenFormatted {

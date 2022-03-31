@@ -1,8 +1,7 @@
 package database
 
 import (
-	"catalog-microservice/cart"
-	"catalog-microservice/product"
+	"cart-microservice/cart"
 	"fmt"
 	"log"
 	"os"
@@ -24,13 +23,12 @@ func StartConnection() *gorm.DB {
 
 	if err != nil {
 		log.Println(err)
-		fmt.Println("Failed to connect to product database")
+		fmt.Println("Failed to connect to cart database")
 		return nil
 	}
-	fmt.Println("Succes to connect to product database")
+	fmt.Println("Succes to connect to cart database")
 
 	db.AutoMigrate(&cart.Cart{})
-	db.AutoMigrate(&product.Product{})
 
 	return db
 }

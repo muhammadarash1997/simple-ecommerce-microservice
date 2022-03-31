@@ -55,15 +55,16 @@ func (this *handler) CreateOrderHandler(c *gin.Context) {
 	// Delete cart
 	client := &http.Client{}
 
-	request, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8080/api/cart/%s", uuid), nil)
+	httpRequest, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8083/api/cart/%s", uuid), nil)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Delete cart failed", http.StatusBadRequest, "error", errorMessage)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	httpRequest.Header.Set("Content-Type", "application/json")
 
-	_, err = client.Do(request)
+	_, err = client.Do(httpRequest)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Delete cart failed", http.StatusBadRequest, "error", errorMessage)
@@ -72,7 +73,6 @@ func (this *handler) CreateOrderHandler(c *gin.Context) {
 	}
 
 	// Output
-	response := helper.APIResponse("Create order successfully", http.StatusOK, "success", orderDetailsAdded)
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusOK, orderDetailsAdded)
 	return
 }

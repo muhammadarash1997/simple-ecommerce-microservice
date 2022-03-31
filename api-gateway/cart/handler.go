@@ -22,13 +22,14 @@ func (this *handler) GetCartByUUIDHandler(c *gin.Context) {
 
 	client := &http.Client{}
 
-	httpRequest, err := http.NewRequest("GET", fmt.Sprintf("http://localhost:8081/api/cart/%s", uuid), nil)
+	httpRequest, err := http.NewRequest("GET", fmt.Sprintf("http://localhost:8083/api/cart/%s", uuid), nil)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Get cart failed", http.StatusBadRequest, "error", errorMessage)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	httpRequest.Header.Set("Content-Type", "application/json")
 
 	httpResponse, err := client.Do(httpRequest)
 	if err != nil {
@@ -38,10 +39,10 @@ func (this *handler) GetCartByUUIDHandler(c *gin.Context) {
 		return
 	}
 
-	cartResponse := []CartGottenFormatted{}
-	json.NewDecoder(httpResponse.Body).Decode(&cartResponse)
+	cartGottenFormatted := []CartGottenFormatted{}
+	json.NewDecoder(httpResponse.Body).Decode(&cartGottenFormatted)
 
-	response := helper.APIResponse("Get cart success", http.StatusOK, "success", cartResponse)
+	response := helper.APIResponse("Get cart success", http.StatusOK, "success", cartGottenFormatted)
 	c.JSON(http.StatusOK, response)
 
 	httpResponse.Body.Close()
@@ -66,18 +67,19 @@ func (this *handler) AddItemByProductUUIDHandler(c *gin.Context) {
 	requestBody, err := json.Marshal(cartInput)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
-		response := helper.APIResponse("Get cart failed", http.StatusBadRequest, "error", errorMessage)
+		response := helper.APIResponse("Add cart failed", http.StatusBadRequest, "error", errorMessage)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
-	httpRequest, err := http.NewRequest("POST", "http://localhost:8081/api/cart", bytes.NewBuffer(requestBody))
+	httpRequest, err := http.NewRequest("POST", "http://localhost:8083/api/cart", bytes.NewBuffer(requestBody))
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Add cart failed", http.StatusBadRequest, "error", errorMessage)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	httpRequest.Header.Set("Content-Type", "application/json")
 
 	httpResponse, err := client.Do(httpRequest)
 	if err != nil {
@@ -87,10 +89,10 @@ func (this *handler) AddItemByProductUUIDHandler(c *gin.Context) {
 		return
 	}
 
-	cartResponse := Cart{}
-	json.NewDecoder(httpResponse.Body).Decode(&cartResponse)
+	cartAdded := Cart{}
+	json.NewDecoder(httpResponse.Body).Decode(&cartAdded)
 
-	response := helper.APIResponse("Add cart success", http.StatusOK, "success", cartResponse)
+	response := helper.APIResponse("Add cart success", http.StatusOK, "success", cartAdded)
 	c.JSON(http.StatusOK, response)
 
 	httpResponse.Body.Close()
@@ -102,8 +104,9 @@ func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&updateQuantityInput)
 	if err != nil {
-		errorMessage := gin.H{"errors": err.Error()}
-		response := helper.APIResponse("Add cart failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+		response := helper.APIResponse("Update quantity failed", http.StatusUnprocessableEntity, "error", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -118,13 +121,14 @@ func (this *handler) UpdateQuantityByCartUUIDHandler(c *gin.Context) {
 		return
 	}
 
-	httpRequest, err := http.NewRequest("POST", "http://localhost:8081/api/cart/update", bytes.NewBuffer(requestBody))
+	httpRequest, err := http.NewRequest("POST", "http://localhost:8083/api/cart/update", bytes.NewBuffer(requestBody))
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Update quantity failed", http.StatusBadRequest, "error", errorMessage)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	httpRequest.Header.Set("Content-Type", "application/json")
 
 	httpResponse, err := client.Do(httpRequest)
 	if err != nil {
@@ -146,13 +150,14 @@ func (this *handler) DeleteCartByUUIDHandler(c *gin.Context) {
 
 	client := &http.Client{}
 
-	httpRequest, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8081/api/cart/item/%s", uuid), nil)
+	httpRequest, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8083/api/cart/item/%s", uuid), nil)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Delete cart failed", http.StatusBadRequest, "error", errorMessage)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	httpRequest.Header.Set("Content-Type", "application/json")
 
 	httpResponse, err := client.Do(httpRequest)
 	if err != nil {
