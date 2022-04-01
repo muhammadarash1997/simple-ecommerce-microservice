@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,7 +41,8 @@ func (this *handler) CreateOrderHandler(c *gin.Context) {
 		return
 	}
 
-	httpRequest, err := http.NewRequest("POST", fmt.Sprintf("http://localhost:8082/api/order/cart/%s", uuid), bytes.NewBuffer(requestBody))
+	// httpRequest, err := http.NewRequest("POST", fmt.Sprintf("http://payment-backend/api/order/cart/%s", uuid), bytes.NewBuffer(requestBody))
+	httpRequest, err := http.NewRequest("POST", "http://"+os.Getenv("PAYMENT_MICROSERVICE_URL")+fmt.Sprintf("/api/order/cart/%s", uuid), bytes.NewBuffer(requestBody))
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Create order failed", http.StatusBadRequest, "error", errorMessage)

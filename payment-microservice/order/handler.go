@@ -3,6 +3,7 @@ package order
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"payment-microservice/helper"
 
 	"github.com/gin-gonic/gin"
@@ -55,7 +56,8 @@ func (this *handler) CreateOrderHandler(c *gin.Context) {
 	// Delete cart
 	client := &http.Client{}
 
-	httpRequest, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8083/api/cart/%s", uuid), nil)
+	// httpRequest, err := http.NewRequest("DELETE", fmt.Sprintf("http://cart-backend/api/cart/%s", uuid), nil)
+	httpRequest, err := http.NewRequest("DELETE", "http://"+os.Getenv("CART_MICROSERVICE_URL")+fmt.Sprintf("/api/cart/%s", uuid), nil)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Delete cart failed", http.StatusBadRequest, "error", errorMessage)

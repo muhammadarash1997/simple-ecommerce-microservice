@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -42,7 +43,8 @@ func (this *handler) GetCartByUUIDHandler(c *gin.Context) {
 	for _, content := range cartGotten {
 		client := &http.Client{}
 
-		httpRequest, err := http.NewRequest("GET", fmt.Sprintf("http://localhost:8081/api/product/%s", content.ProductID), nil)
+		// httpRequest, err := http.NewRequest("GET", fmt.Sprintf("http://product-backend/api/product/%s", content.ProductID), nil)
+		httpRequest, err := http.NewRequest("GET", "http://"+os.Getenv("PRODUCT_MICROSERVICE_URL")+fmt.Sprintf("/api/product/%s", content.ProductID), nil)
 		if err != nil {
 			errorMessage := gin.H{"errors": err.Error()}
 			response := helper.APIResponse("Get cart failed", http.StatusBadRequest, "error", errorMessage)

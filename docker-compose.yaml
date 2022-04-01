@@ -2,52 +2,109 @@ version: '3.3'
 services:
   apigateway-postgres:
     image: postgres
+    container_name: apigateway-postgres
     ports:
       - 5432:5432
     env_file: .env
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER_APIGATEWAY}
+      POSTGRES_PASSWORD: ${DB_PASS_APIGATEWAY}
+      POSTGRES_DB: ${DB_NAME_APIGATEWAY}
+  product-postgres:
+    image: postgres
+    container_name: product-postgres
+    ports:
+      - 5433:5432
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USER_PRODUCT}
+      POSTGRES_PASSWORD: ${DB_PASS_PRODUCT}
+      POSTGRES_DB: ${DB_NAME_PRODUCT}
+  payment-postgres:
+    image: postgres
+    container_name: payment-postgres
+    ports:
+      - 5434:5432
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USER_PAYMENT}
+      POSTGRES_PASSWORD: ${DB_PASS_PAYMENT}
+      POSTGRES_DB: ${DB_NAME_PAYMENT}
+  cart-postgres:
+    image: postgres
+    container_name: cart-postgres
+    ports:
+      - 5435:5432
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USER_CART}
+      POSTGRES_PASSWORD: ${DB_PASS_CART}
+      POSTGRES_DB: ${DB_NAME_CART}
+
   apigateway-backend:
-    # image: backend-apigateway-microservice:v1
-    build: .
+    build: ./api-gateway
+    container_name: apigateway-backend
     ports:
       - 8080:8080
     env_file: .env
     environment:
       TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}
       SECRET_KEY: ${SECRET_KEY}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      DB_NAME: ${DB_NAME}
-      TEST_PRODUCT_URL: ${TEST_PRODUCT_URL}
+      DB_HOST: ${DB_HOST_APIGATEWAY}
+      DB_PORT: ${DB_PORT_APIGATEWAY}
+      DB_USER: ${DB_USER_APIGATEWAY}
+      DB_PASS: ${DB_PASS_APIGATEWAY}
+      DB_NAME: ${DB_NAME_APIGATEWAY}
     depends_on:
       - apigateway-postgres
-      
-  product-postgres:
-    image: postgres
-    ports:
-      - 5433:5432
-    env_file: .env
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}
   product-backend:
     build: ./product-microservice
+    container_name: product-backend
     ports:
       - 8081:8080
     env_file: .env
     environment:
       TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}
       SECRET_KEY: ${SECRET_KEY}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST_PRODUCT}
+      DB_PORT: ${DB_PORT_PRODUCT}
+      DB_USER: ${DB_USER_PRODUCT}
+      DB_PASS: ${DB_PASS_PRODUCT}
+      DB_NAME: ${DB_NAME_PRODUCT}
+      PRODUCT_MICROSERVICE_URL: ${PRODUCT_MICROSERVICE_URL}
     depends_on:
       - product-postgres
+  payment-backend:
+    build: ./payment-microservice
+    container_name: payment-backend
+    ports:
+      - 8082:8080
+    env_file: .env
+    environment:
+      TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}
+      SECRET_KEY: ${SECRET_KEY}
+      DB_HOST: ${DB_HOST_PAYMENT}
+      DB_PORT: ${DB_PORT_PAYMENT}
+      DB_USER: ${DB_USER_PAYMENT}
+      DB_PASS: ${DB_PASS_PAYMENT}
+      DB_NAME: ${DB_NAME_PAYMENT}
+      PAYMENT_MICROSERVICE_URL: ${PAYMENT_MICROSERVICE_URL}
+    depends_on:
+      - payment-postgres
+  cart-backend:
+    build: ./cart-microservice
+    container_name: cart-backend
+    ports:
+      - 8083:8080
+    env_file: .env
+    environment:
+      TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}
+      SECRET_KEY: ${SECRET_KEY}
+      DB_HOST: ${DB_HOST_CART}
+      DB_PORT: ${DB_PORT_CART}
+      DB_USER: ${DB_USER_CART}
+      DB_PASS: ${DB_PASS_CART}
+      DB_NAME: ${DB_NAME_CART}
+      CART_MICROSERVICE_URL: ${CART_MICROSERVICE_URL}
+    depends_on:
+      - cart-postgres

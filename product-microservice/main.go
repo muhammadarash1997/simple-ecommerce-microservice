@@ -21,7 +21,7 @@ func main() {
 
 		err := c.ShouldBindJSON(&testInput)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"message": "bad 4"})
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
 			return
 		}
 

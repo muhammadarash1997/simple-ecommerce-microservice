@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"os"
 	"payment-microservice/order"
 )
 
@@ -55,7 +56,8 @@ func (this *service) AddPayment(orderInput OrderInput) (Payment, error) {
 		return payment, err
 	}
 
-	httpRequest, err := http.NewRequest("POST", "http://localhost:8081/api/product/total", bytes.NewBuffer(requestBody))
+	// httpRequest, err := http.NewRequest("POST", "http://product-backend/api/product/total", bytes.NewBuffer(requestBody))
+	httpRequest, err := http.NewRequest("POST", "http://"+os.Getenv("PRODUCT_MICROSERVICE_URL")+"/api/product/total", bytes.NewBuffer(requestBody))
 	if err != nil {
 		return payment, err
 	}

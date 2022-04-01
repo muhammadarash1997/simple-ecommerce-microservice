@@ -11,11 +11,11 @@ import (
 )
 
 func StartConnection() *gorm.DB {
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPass := os.Getenv("DB_PASS")
-	dbName := os.Getenv("DB_NAME")
+	dbHost := os.Getenv("DB_HOST_APIGATEWAY")
+	dbPort := os.Getenv("DB_PORT_APIGATEWAY")
+	dbUser := os.Getenv("DB_USER_APIGATEWAY")
+	dbPass := os.Getenv("DB_PASS_APIGATEWAY")
+	dbName := os.Getenv("DB_NAME_APIGATEWAY")
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbHost, dbUser, dbPass, dbName, dbPort)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

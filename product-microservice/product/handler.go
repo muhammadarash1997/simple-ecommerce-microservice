@@ -1,8 +1,8 @@
 package product
 
 import (
-	"product-microservice/helper"
 	"net/http"
+	"product-microservice/helper"
 
 	"github.com/gin-gonic/gin"
 )

@@ -12,11 +12,11 @@ import (
 )
 
 func StartConnection() *gorm.DB {
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPass := os.Getenv("DB_PASS")
-	dbName := os.Getenv("DB_NAME")
+	dbHost := os.Getenv("DB_HOST_PAYMENT")
+	dbPort := os.Getenv("DB_PORT_PAYMENT")
+	dbUser := os.Getenv("DB_USER_PAYMENT")
+	dbPass := os.Getenv("DB_PASS_PAYMENT")
+	dbName := os.Getenv("DB_NAME_PAYMENT")
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbHost, dbUser, dbPass, dbName, dbPort)
 

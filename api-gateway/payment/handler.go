@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,7 +32,8 @@ func (h *handler) Test(c *gin.Context) {
 		return
 	}
 
-	httpRequest, err := http.NewRequest("POST", "http://localhost:8082/api/payment/test", bytes.NewBuffer(requestBody))
+	// httpRequest, err := http.NewRequest("POST", "http://payment-backend/api/payment/test", bytes.NewBuffer(requestBody))
+	httpRequest, err := http.NewRequest("POST", "http://"+os.Getenv("PAYMENT_MICROSERVICE_URL")+"/api/payment/test", bytes.NewBuffer(requestBody))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "bad"})
 		return
@@ -77,7 +79,8 @@ func (this *handler) CreatePaymentHandler(c *gin.Context) {
 		return
 	}
 
-	httpRequest, err := http.NewRequest("POST", "http://localhost:8082/api/order/pay", bytes.NewBuffer(requestBody))
+	// httpRequest, err := http.NewRequest("POST", "http://payment-backend/api/order/pay", bytes.NewBuffer(requestBody))
+	httpRequest, err := http.NewRequest("POST", "http://"+os.Getenv("PAYMENT_MICROSERVICE_URL")+"/api/order/pay", bytes.NewBuffer(requestBody))
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		response := helper.APIResponse("Create payment failed", http.StatusBadRequest, "error", errorMessage)
