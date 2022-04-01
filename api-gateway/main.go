@@ -34,7 +34,7 @@ func main() {
 	var (
 		cartHandler = cart.NewHandler()
 	)
-	router.GET("/api/cart/:userUUID", userHandler.AuthenticateHandler, cartHandler.GetCartByUUIDHandler)            // Get all user cart
+	router.GET("/api/cart/:userUUID", userHandler.AuthenticateHandler, cartHandler.GetCartByUUIDHandler)            // Get all user cart and be done by logged in customer
 	router.POST("/api/cart", userHandler.AuthenticateHandler, cartHandler.AddItemByProductUUIDHandler)              // Add product to cart and be done by logged in customer
 	router.POST("/api/cart/update", userHandler.AuthenticateHandler, cartHandler.UpdateQuantityByCartUUIDHandler)   // Update quantity product in cart and be done by logged in customer
 	router.DELETE("/api/cart/item/:cartUUID", userHandler.AuthenticateHandler, cartHandler.DeleteCartByUUIDHandler) // Delete cart and be done by logged in customer

@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "265590a9-361a-43b0-b108-67e974b0e82d",
+		"name": "Order",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Order Cart (by logged in customer)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/order/cart/:userUUID",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"order",
+						"cart",
+						":userUUID"
+					],
+					"variable": [
+						{
+							"key": "userUUID",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Order Cart (by logged in customer)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    {\n        \"product_id\": \"f1234fae-7dec-11d0-a765-00a0c91e6bv9\",\n        \"name\": \"laptop lenovo\",\n        \"category\": \"electronic\",\n        \"price\": \"5500000\",\n        \"quantity\": 1\n    }\n    {\n        \"product_id\": \"t81d4fae-6dec-11d0-a768-00a0c91e6b40\",\n        \"name\": \"laptop asus\",\n        \"category\": \"electronic\",\n        \"price\": \"4300000\",\n        \"quantity\": 2\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/order/cart/:userUUID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"order",
+								"cart",
+								":userUUID"
+							],
+							"variable": [
+								{
+									"key": "userUUID",
+									"value": "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}
