@@ -43,5 +43,5 @@ func main() {
 	router.GET("/api/product/:productUUID", productHandler.GetProductByUUIDHandler) // Get product and done by cart microservice
 	router.POST("/api/product/total", productHandler.GetTotalByUUIDHandler)         // Get total of certain products and done by payment microservice
 
-	router.Run(":8081")
+	router.Run(":8080") // Karena microservice ini akan dijadikan container maka 8080 di sini adalah localhost:8080 nya si container bukan localhost:8080 nya si host
 }

@@ -44,5 +44,5 @@ func main() {
 
 	router.DELETE("/api/cart/:userUUID", cartHandler.DeleteUserCartByUUIDHandler) // Delete all cart of user and be done by other payment microservice
 
-	router.Run(":8083")
+	router.Run(":8080") // Karena microservice ini akan dijadikan container maka 8080 di sini adalah localhost:8080 nya si container bukan localhost:8080 nya si host
 }

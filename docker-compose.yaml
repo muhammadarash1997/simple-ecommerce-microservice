@@ -4,7 +4,7 @@ services:
     image: postgres
     container_name: apigateway-postgres
     ports:
-      - 5432:5432
+      - 5432
     env_file: .env
     environment:
       POSTGRES_USER: ${DB_USER_APIGATEWAY}
@@ -14,7 +14,7 @@ services:
     image: postgres
     container_name: product-postgres
     ports:
-      - 5433:5432
+      - 5432
     env_file: .env
     environment:
       POSTGRES_USER: ${DB_USER_PRODUCT}
@@ -24,7 +24,7 @@ services:
     image: postgres
     container_name: payment-postgres
     ports:
-      - 5434:5432
+      - 5432
     env_file: .env
     environment:
       POSTGRES_USER: ${DB_USER_PAYMENT}
@@ -34,7 +34,7 @@ services:
     image: postgres
     container_name: cart-postgres
     ports:
-      - 5435:5432
+      - 5432
     env_file: .env
     environment:
       POSTGRES_USER: ${DB_USER_CART}
@@ -60,8 +60,6 @@ services:
   product-backend:
     build: ./product-microservice
     container_name: product-backend
-    ports:
-      - 8081:8080
     env_file: .env
     environment:
       TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}
@@ -77,8 +75,6 @@ services:
   payment-backend:
     build: ./payment-microservice
     container_name: payment-backend
-    ports:
-      - 8082:8080
     env_file: .env
     environment:
       TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}
@@ -94,8 +90,6 @@ services:
   cart-backend:
     build: ./cart-microservice
     container_name: cart-backend
-    ports:
-      - 8083:8080
     env_file: .env
     environment:
       TOKEN_HOUR_LIFESPAN: ${TOKEN_HOUR_LIFESPAN}

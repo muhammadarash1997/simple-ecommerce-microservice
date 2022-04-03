@@ -48,5 +48,5 @@ func main() {
 	)
 	router.POST("/api/order/pay", paymentHandler.CreatePaymentHandler) // Pay order and be done by logged in customer
 
-	router.Run(":8082")
+	router.Run(":8080") // Karena microservice ini akan dijadikan container maka 8080 di sini adalah localhost:8080 nya si container bukan localhost:8080 nya si host
 }
