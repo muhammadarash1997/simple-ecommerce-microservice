@@ -1,19 +1,6 @@
 # Simple E-Commerce Microservice
 > This is a backend service for Simple E-Commerce Microservice. Simple E-Commerce Microservice is used by customer to be able to go shopping by online.
 
-## Usage
-Create .env file in the root directory of your project. Add environment-specific variables on new lines in the form NAME=VALUE. For example:
-
-```bash
-- DB_HOST=localhost
-- DB_PORT=5432
-- DB_USER=root
-- DB_PASS=password123
-- DB_NAME=attendancedb
-- TOKEN_HOUR_LIFESPAN=24
-- SECRET_KEY=secret123
-```
-
 ## Requirements
 You need [Docker](https://www.docker.com) and [Docker Compose](https://docs.docker.com)
 
@@ -60,6 +47,9 @@ Services mediates communication between a controller and repository layer. The s
 
 #### Repositories
 Repositories is for accessing the database and helps to extend the CRUD operations on the database.
+
+### Architecture Microservice
+![alt text](https://github.com/muhammadarash1997/attendance-platform/blob/master/ARCHITECTURE.png?raw=true)
 
 ### Entity Relationship Diagram
 ![alt text](https://github.com/muhammadarash1997/attendance-platform/blob/master/ERD.png?raw=true)
