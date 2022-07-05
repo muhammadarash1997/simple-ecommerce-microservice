@@ -49,10 +49,10 @@ Services mediates communication between a controller and repository layer. The s
 Repositories is for accessing the database and helps to extend the CRUD operations on the database.
 
 ### Architecture Microservice
-![alt text](https://github.com/muhammadarash1997/attendance-platform/blob/master/ARCHITECTURE.png?raw=true)
+![alt text](https://github.com/muhammadarash1997/simple-ecommerce-microservice/blob/master/ARCHITECTURE.png?raw=true)
 
 ### Entity Relationship Diagram
-![alt text](https://github.com/muhammadarash1997/attendance-platform/blob/master/ERD.png?raw=true)
+![alt text](https://github.com/muhammadarash1997/simple-ecommerce-microservice/blob/master/ERD.png?raw=true)
 
 ### Flow Chart
-![alt text](https://github.com/muhammadarash1997/attendance-platform/blob/master/FLOWCHART.png?raw=true)
+![alt text](https://github.com/muhammadarash1997/simple-ecommerce-microservice/blob/master/FLOWCHART.png?raw=true)
