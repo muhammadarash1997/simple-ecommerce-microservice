@@ -15,8 +15,7 @@ Create .env file in the root directory of your project. Add environment-specific
 ```
 
 ## Requirements
-You need [Docker](https://www.docker.com)
-You need [Docker Compose](https://docs.docker.com)
+You need [Docker](https://www.docker.com) and [Docker Compose](https://docs.docker.com)
 
 ## Running App
 
