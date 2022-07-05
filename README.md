@@ -17,6 +17,7 @@ docker compose up
 - Gin Web Framework
 - GORM
 - JSON Web Token
+- Microservices
 
 ## Usecases
 1. Customer were be able to register and login.
